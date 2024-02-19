@@ -72,7 +72,7 @@ void linearSearch(int* arr, int size, int element){
 	}
 }
 
-void binarySearch(int* arr, int size, int element){
+int binarySearch(int* arr, int size, int element){
 	int beg, end, mid;
 	beg = 0;
 	end = (size -1);
@@ -88,9 +88,11 @@ void binarySearch(int* arr, int size, int element){
 	}
 	if(arr[mid]== element){
 		printf("The number %d is present in the array at the position %d", element, mid+1);
+    return mid;
 	}
 	else{
 		printf("The number is not present in the array");
+    return -1;
 	}
 }
 int main(void){
@@ -112,6 +114,7 @@ int main(void){
   displayTraverse(arr2, size2);
   int arr3[size1+size2];
   merge(arr1, arr2, arr3, size1, size2);
+  binarySearch(arr1, size1, 6);
   
   return 0;
 }
