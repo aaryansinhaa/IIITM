@@ -1,2 +1,2 @@
 # IIITM
-A repo for everything college
+A repo for everything college.
