@@ -118,7 +118,7 @@ void display(NODE*head)
         }
     } 
 }
-void bigin_delete(NODE*head)
+void begin_delete(NODE*head)
 {
     if (head==NULL)
     {
@@ -244,7 +244,7 @@ void main()
             display(head);
             break;
         case 6:
-            bigin_delete(head);
+            begin_delete(head);
             break;
         case 7:
             end_delete(head);
