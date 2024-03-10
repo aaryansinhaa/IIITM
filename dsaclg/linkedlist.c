@@ -70,7 +70,7 @@ void insert_end(NODE** head,int Data)
     }
     ptr->link=nNode; 
 }
-void insert_af_data(NODE** head, int Data, int no)
+void insert_at_data(NODE** head, int Data, int no)
 {
     NODE* nNode = (NODE*)malloc(sizeof(NODE));
     nNode->data = Data;
@@ -238,7 +238,7 @@ void main()
             scanf("%d",&no);
             printf("enter the data");
             scanf("%d",&Data);
-            insert_af_data(&head,Data,no);
+            insert_at_data(&head,Data,no);
             break;
         case 5:
             display(head);
