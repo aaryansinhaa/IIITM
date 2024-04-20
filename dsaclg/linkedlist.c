@@ -1,270 +1,175 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-struct node
-{
-    int data;
-    struct node* link;
+struct node{
+	int data;
+	struct node* next;
+
 };
 typedef struct node NODE;
-void insert_begin(NODE** head,int Data)
-{
-    NODE* nNode=(NODE*)malloc(sizeof(NODE));
-    nNode->data= Data;
-    if (*head==NULL)
-    {
-        *head=nNode;
-        nNode->link=NULL;
-    }
-    else
-    {
-        nNode->link=*head;
-        *head=nNode;
-    }
-    
+
+void insert_at_beggining(NODE**);
+void insert_at_end(NODE**);
+void insert_at_position(NODE**);
+void display(NODE*);
+void delete_at_beggining(NODE**);
+void delete_at_end(NODE**);
+void delete_at_position(NODE**);
+
+
+
+int main(void){
+	NODE* head = NULL;
+	int choice;
+	do{
+		printf("\n--------SINGLY LINKED LIST----------\n");
+		printf("1. Insert at Beginning\n2. Insert at End\n3. Insert at Position\n4. Insert after a data\n5. Display\n6. Delete at Beginning\n7. Delete at End\n8. Delete at Position\n9. Delete after Data\n 10. To Exit.");
+	scanf("%d", &choice);
+		switch(choice){
+			case 1:
+				insert_at_beggining(&head);
+				break;
+			case 2:
+				insert_at_end(&head);
+				break;
+			case 3:
+				insert_at_position(&head);
+				break;
+			case 5:
+				display(head);
+				break;
+			case 6:
+				delete_at_beggining(&head);
+				break;
+		/*	case 7:
+				delete_at_end(&head);
+				break;
+			case 8:
+				delete_at_position(&head);*/
+			case 10:
+				printf("\n\nEXITING.........");
+				break;
+			default:
+				printf("\n\nPlease Enter a Valid Choice\n\n");
+		}
+
+	}while(choice !=10);
+
+	return 0;
 }
 
-void insert_anywhere(NODE* head,int Data,int no)
-{
-    NODE* ptr= head;
-    if (head==NULL)
-    {
-        insert_begin(&head,Data);
-    }
-    else
-    {
-        int count=0;
-        while (ptr->link != NULL)
-        {
-            ptr=ptr->link;
-            count++;
-        }
-        if (count <= no+1)
-        {
-            NODE* nNode=(NODE*)malloc(sizeof(NODE));
-            nNode->data= Data;
-            for (int i = 1; i != no; i++)
-            {
-                ptr = ptr->link;
-            }
-            nNode->link=ptr;
-            ptr->link=nNode;   
-        }
-        else
-        {
-            printf ("we are assining it to end");
-            insert_end(&head,Data);
-        }
-    }
-    
-}
-void insert_end(NODE** head,int Data)
-{
-    NODE* nNode=(NODE*)malloc(sizeof(NODE));
-    nNode->data= Data;
-    nNode->link=NULL;
-    NODE* ptr=*head;
-    while (ptr->link!=NULL)
-    {
-        ptr = ptr->link;
-    }
-    ptr->link=nNode; 
-}
-void insert_at_data(NODE** head, int Data, int no)
-{
-    NODE* nNode = (NODE*)malloc(sizeof(NODE));
-    nNode->data = Data;
-    NODE* ptr = *head;
 
-    // Special case: inserting at the beginning
-    if (ptr->data == no)
-    {
-        nNode->link = *head;
-        *head = nNode;
-        return;
-    }
 
-   while (ptr->data!=no && ptr->link != NULL)
-   {
-        ptr=ptr->link;
-   }
-   if (ptr->data!=no)
-   {
-        printf("data does not exist\n");
-        printf("we are assining it at the end\n");
-        ptr->link = nNode;
-        nNode->link= NULL;
-   }
-   else
-   {
-        nNode->link = ptr->link;
-        ptr->link = nNode;
-   }
+void insert_at_beggining(NODE** head){
+	NODE* ptr = (NODE*)malloc(sizeof(NODE));
+	printf("\nEnter the Data!");
+	scanf("%d", &ptr->data);
+	ptr->next = NULL;
+	if(*head == NULL){
+		*head = ptr;
+
+	}else{
+		ptr->next = *head;
+		*head = ptr;
+
+	}
+
+
 }
-void display(NODE*head)
-{
-    if (head==NULL)
-    {
-        printf("empty linked list");
-    }
-    else
-    {
-        NODE* temp;
-        temp=head;
-        while (temp!=NULL)
-        {
-            printf("%d\n",temp->data);
-            temp=temp->link;
-        }
-    } 
+void insert_at_end(NODE** head){
+	NODE* ptr = (NODE*)malloc(sizeof(NODE*));
+	printf("\nEnter the Data!");
+	scanf("%d", &ptr->data);
+	ptr->next = NULL;
+	NODE* temp = *head;
+	if(*head == NULL){
+		*head = ptr;
+	}else{
+		while(temp->next != NULL){
+			temp = temp->next;
+			
+		}
+		temp->next = ptr;
+	}
+
+
+
 }
-void begin_delete(NODE*head)
-{
-    if (head==NULL)
-    {
-        printf("\nthere is no data to delete\n");
-    }
-    else
-    {
-        printf("deleted data is %d",head->data);
-        head=head->link;
-    }
+void insert_at_position(NODE** head){
+	NODE* ptr = (NODE*)malloc(sizeof(NODE*));
+	printf("\nEnter the Data!");
+	scanf("%d", &ptr->data);
+	ptr->next = NULL;
+	NODE* temp = *head;
+	int posn;
+	printf("\nEnter the Position:");
+	scanf("%d", &posn);
+	if(*head == NULL){
+		*head = ptr;
+	}else{
+		int i = 1;
+		int count = 1;
+		for(count = 1; temp->next!=NULL; count++){temp = temp->next;}
+		if(posn>count){
+			printf("\nThe position %d does not exist, inserting at the last possible position\n", posn);
+		}
+		while(temp->next != NULL && i<posn){
+			temp = temp->next;
+			i++;
+		}
+		ptr->next = temp->next;
+		temp->next = ptr;
+		
+	}
+
+
+
 }
-void end_delete(NODE*head)
-{
-    if (head==NULL)
-    {
-        printf("\nthere is no data to delete\n");
-    }
-    else
-    {
-        NODE* temp;
-        temp=head;
-        while (temp->link!=NULL)
-        {
-            temp=temp->link;
-        }
-        temp->link=NULL;
-    }
-    
+void display(NODE* head){
+	if(head == NULL){
+		printf("\nEmpty List!!\n");
+
+	}else{
+		printf("Start ");
+		while(head != NULL){
+			printf(" -> %d", head->data);
+			head = head->next;
+
+
+		}
+		printf(" <-END");
+
+	}
+
+
 }
-void del_anywhere(NODE*head,int no)
-{
-    if (head==NULL)
-    {
-        printf("\nthere is no data to delete\n");
-    }
-    else
-    {
-        NODE* temp;
-        temp=head;
-        for (int i = 1; i < no; i++)
-        {
-            temp=temp->link;
-        }
-        temp=temp->link;
-    }
-        
+void delete_at_beggining(NODE** head){
+	
+	NODE* temp = *head;
+	printf("Deleting %d.", temp->data);
+
+	*head = temp->next;
+	 
+	free(temp);
+
+
+
 }
-void del_af_data(NODE*head,int no)
-{
-    if (head==NULL)
-    {
-        printf("\nthere is no data to delete\n");
-    }
-    else
-    {
-        NODE* temp;
-        temp=head;   
-        while (temp->link!=NULL && temp->data != no)
-        {
-            temp=temp->link;
-        }
-        if (temp->link==NULL)
-        {
-            printf("there is no data to delete");
-        }
-        else
-        {
-            temp=temp->link->link;
-        }
-        
-        
-    }
-    
+void delete_at_end(NODE** head){
+	
+	NODE* temp = *head;
+	NODE* ptr;
+	while(temp->next!= NULL){
+		ptr = temp;
+		temp = temp->next;
+	}
+	printf("Deleting")
+	ptr->next = NULL;
+	
+
+	
+
+
 }
 
-void main()
-{
-    NODE* head=NULL;
-    int choice,Data;
-    char ch;
-    int no;
-    do
-    {
-        printf("for insert at begining press 1\n");
-        printf("for insert at end press 2\n");
-        printf("for insert at a position press 3\n");
-        printf("for insert after any specific data press 4\n");
-        printf("enter 5 for display\n");
-        printf("for delete data at begining press 6\n");
-        printf("for delete data at end press 7\n");
-        printf("for delete data at a position press 8\n");
-        printf("for delete data after any specific data press 9\n");
-        printf("enter 0 for exit\n");
-        scanf("%d",&choice);
-        switch (choice)
-        {
-        case 1:
-            printf("enter the data");
-            scanf("%d",&Data);
-            insert_begin(&head,Data);
-            break;
-        case 2:
-            printf("enter the data");
-            scanf("%d",&Data);
-            insert_end(&head,Data);
-            break;
-        case 3:
-            printf("\nenter specific position no\n");
-            scanf("%d",&no);
-            printf("enter the data");
-            scanf("%d",&Data);
-            insert_anywhere(head,Data,no);
-            break;
 
-        case 4:
-            printf("\n enter specific data \n");
-            scanf("%d",&no);
-            printf("enter the data");
-            scanf("%d",&Data);
-            insert_at_data(&head,Data,no);
-            break;
-        case 5:
-            display(head);
-            break;
-        case 6:
-            begin_delete(head);
-            break;
-        case 7:
-            end_delete(head);
-            break;
-        case 8:
-            printf("\n enter specific position \n");
-            scanf("%d",&no);
-            del_anywhere(head, no);
-            break;
-        case 9:
-            printf("\n enter specific data \n");
-            scanf("%d",&no);
-            del_af_data(head,no);
-            break;
-        default:
-            exit(0);
-            break;
-        }
-        printf("\n for continue press y \n");
-        scanf(" %c",&ch);
-    }
-    while (ch=='y'|| ch=='Y');
-}
